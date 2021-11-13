@@ -21,16 +21,16 @@
 	(bind ?mcp (ask-question "Mean concave points? " "" "" ))
 	(assert (mean-concave-points ?mcp))
 	(if (> ?mcp 0.05)
-		then (assert (check-worst-perimeter 1))
+		then (assert (check worst-perimeter))
 	else (if (<= ?mcp 0.05)
-		    then (assert (check-worst-radius 1))
+		    then (assert (check worst-radius))
 		 )
 	)
 )
 
 ;;; Tanya value worst perimeter -> worst texture 1
 (defrule Get-Value-worst-perimeter
-	?x <- (check-worst-perimeter 1)
+	?x <- (check worst-perimeter)
 	=>
 	(retract ?x)
 	(bind ?wp (ask-question "Worst perimeter? " "" "" ))
@@ -38,29 +38,29 @@
 	(if (> ?wp 114.45)
 		then (assert (breast-cancer 0))
 	else (if (<= ?wp 114.45)
-		    then (assert (check-worst-texture-1 1))
+		    then (assert (check worst-texture-1))
 		 )
 	)
 )
 
 ;;; Tanya value worst texture -> perimeter error, worst concave points
 (defrule Get-Value-worst-texture-1
-	?x <- (check-worst-texture-1 1)
+	?x <- (check worst-texture-1)
 	=>
 	(retract ?x)
 	(bind ?wt (ask-question "Worst texture? " "" "" ))
 	(assert (worst-texture ?wt))
 	(if (> ?wt 25.65)
-		then (assert (check-perimeter-error 1))
+		then (assert (check perimeter-error))
 	else (if (<= ?wt 25.65)
-		    then (assert (check-worst-concave-points 1))
+		    then (assert (check worst-concave-points))
 		 )
 	)
 )
 
 ;;; Tanya value perimeter error -> mean radius 1
 (defrule Get-Value-perimeter-error
-	?x <- (check-perimeter-error 1)
+	?x <- (check perimeter-error)
 	=>
 	(retract ?x)
 	(bind ?pe (ask-question "Perimeter error? " "" "" ))
@@ -68,7 +68,7 @@
 	(if (> ?pe 1.56)
 		then (assert (breast-cancer 0))
 	else (if (<= ?pe 1.56)
-		    then (assert (check-mean-radius-1 1))
+		    then (assert (check mean-radius-1))
 		 )
 	)
 )
@@ -76,7 +76,7 @@
 
 ;;; Tanya value mean radius 1
 (defrule Get-Value-mean-radius-1
-	?x <- (check-mean-radius-1 1)
+	?x <- (check mean-radius-1)
 	=>
 	(retract ?x)
 	(bind ?mr (ask-question "Mean radius? " "" "" ))
@@ -91,7 +91,7 @@
 
 ;;; Tanya value worst concave points
 (defrule Get-Value-worst-concave-point
-	?x <- (check-worst-concave-points 1)
+	?x <- (check worst-concave-points)
 	=>
 	(retract ?x)
 	(bind ?wcp (ask-question "Worst concave points? " "" "" ))
@@ -107,28 +107,28 @@
 
 ;;; Tanya value worst radius -> radius error, mean texture 1
 (defrule Get-Value-worst-radius
-	?x <- (check-worst-radius 1)
+	?x <- (check worst-radius)
 	=>
 	(retract ?x)
 	(bind ?wr (ask-question "Worst radius? " "" "" ))
 	(assert (worst-radius ?wr))
 	(if (> ?wr 16.83)
-		then (assert (check-mean-texture-1 1))
+		then (assert (check mean-texture-1))
 	else (if (<= ?wr 16.83)
-		    then (assert (check-radius-error 1))
+		    then (assert (check radius-error))
 		 )
 	)
 )
 
 ;;; Tanya value mean texture 1 -> concave points error
 (defrule Get-Value-mean-texture-1
-	?x <- (check-mean-texture-1 1)
+	?x <- (check mean-texture-1)
 	=>
 	(retract ?x)
 	(bind ?mt (ask-question "Mean texture? " "" "" ))
 	(assert (worst-radius ?mt))
 	(if (> ?mt 16.19)
-		then (assert (check-concave-points-error 1))
+		then (assert (check concave-points-error))
 	else (if (<= ?mt 16.19)
 		    then (assert (breast-cancer 1))
 		 )
@@ -137,7 +137,7 @@
 
 ;;; Tanya value concave points error
 (defrule Get-Value-concave-points-error
-	?x <- (check-concave-points-error 1)
+	?x <- (check concave-points-error)
 	=>
 	(retract ?x)
 	(bind ?cpe (ask-question "Concave points error? " "" "" ))
