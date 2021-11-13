@@ -110,17 +110,45 @@
 	?x <- (check-worst-radius 1)
 	=>
 	(retract ?x)
-	(bind ?wr (ask-question "### Worst radius? ### " "" "" ))
+	(bind ?wr (ask-question "Worst radius? " "" "" ))
 	(assert (worst-radius ?wr))
 	(if (> ?wr 16.83)
-		then (assert (check-mean-texture 1))
+		then (assert (check-mean-texture-1 1))
 	else (if (<= ?wr 16.83)
 		    then (assert (check-radius-error 1))
 		 )
 	)
 )
 
+;;; Tanya value mean texture 1 -> concave points error
+(defrule Get-Value-mean-texture-1
+	?x <- (check-mean-texture-1 1)
+	=>
+	(retract ?x)
+	(bind ?mt (ask-question "Mean texture? " "" "" ))
+	(assert (worst-radius ?mt))
+	(if (> ?mt 16.19)
+		then (assert (check-concave-points-error 1))
+	else (if (<= ?mt 16.19)
+		    then (assert (breast-cancer 1))
+		 )
+	)
+)
 
+;;; Tanya value concave points error
+(defrule Get-Value-concave-points-error
+	?x <- (check-concave-points-error 1)
+	=>
+	(retract ?x)
+	(bind ?cpe (ask-question "Concave points error? " "" "" ))
+	(assert (concave-points-error ?cpe))
+	(if (> ?cpe 0.01)
+		then (assert (breast-cancer 1))
+	else (if (<= ?cpe 0.01)
+		    then (assert (breast-cancer 0))
+		 )
+	)
+)
 
 ;;; Conclusion
 (defrule Check-Breast-Cancer
