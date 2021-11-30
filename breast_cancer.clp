@@ -146,6 +146,95 @@
 	)
 )
 
+;;; Tanya value radius error -> worst texture, mean smoothness
+(defrule Get-Value-radius-error
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	=>
+	(bind ?re (ask-question "Radius error? " "" "" ))
+	(assert (radius-error ?re))
+)
+
+;;; Tanya value radius error -> worst texture, mean smoothness
+(defrule Get-Value-worst-texture-2
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	(radius-error ?re)
+	(test (<= ?re 0.63))
+	=>
+	(bind ?wt (ask-question "Worst texture? " "" "" ))
+	(assert (worst-texture ?wt))
+	(if (<= ?wt 30.15)
+		    then (assert (breast-cancer 1))
+  )
+)
+
+;;; Tanya value worst area -> mean radius
+(defrule Get-Value-worst-area
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	(radius-error ?re)
+	(test (<= ?re 0.63))
+  (worst-texture ?wt)
+  (test (> ?wt 30.15))
+	=>
+	(bind ?wa (ask-question "Worst area? " "" "" ))
+	(assert (worst-area ?wa))
+	(if (<= ?wa 641.60)
+		    then (assert (breast-cancer 1))
+  )
+)
+
+;;; Tanya value mean radius -> mean texture
+(defrule Get-Value-mean-radius-2
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	(radius-error ?re)
+	(test (<= ?re 0.63))
+  (worst-texture ?wt)
+  (test (> ?wt 30.15))
+  (worst-area ?wa)
+  (test (> ?wa 641.60))
+	=>
+	(bind ?mr (ask-question "Mean radius? " "" "" ))
+	(assert (mean-radius ?mr))
+	(if (> ?mr 13.45)
+		    then (assert (breast-cancer 1))
+  )
+)
+
+;;; Tanya value mean texture
+(defrule Get-Value-mean-texture-2
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	(radius-error ?re)
+	(test (<= ?re 0.63))
+  (worst-texture ?wt)
+  (test (> ?wt 30.15))
+  (worst-area ?wa)
+  (test (> ?wa 641.60))
+  (mean-radius ?mr)
+  (test (<= ?mr 13.45))
+	=>
+	(bind ?mt (ask-question "Mean texture? " "" "" ))
+	(assert (mean-texture ?mt))
+	(if (> ?mt 28.79)
+		then (assert (breast-cancer 1))
+	else (if (<= ?mt 28.79)
+		    then (assert (breast-cancer 0))
+		 )
+	)
+)
 ;;; Conclusion
 (defrule Check-Breast-Cancer
 	(breast-cancer ?bc)
@@ -157,30 +246,3 @@
 		)
 	)
 )
-
-;;; mean concave points
-;;; worst perimeter
-;;; worst texture 1
-;;; worst concave points
-;;; perimeter error
-;;; mean radius 1
-;;; worst radius
-;;; radius error
-;;; mean texture 1
-;;; concave points error
-;;; mean smoothness
-;;; worst texture 2
-;;; worst area
-;;; mean radius 2
-;;; mean texture 2
-
-;;; mean concave points -> worst perimeter, worst radius
-;;; worst perimeter -> worst texture 1
-;;; worst texture 1 -> perimeter error, worst concave points
-;;; perimeter error -> mean radius 1
-;;; worst radius -> radius error, mean texture 1
-;;; radius error -> worst texture 2, mean smoothness
-;;; mean texture 1 -> concave points error
-;;; worst texture 2 -> worst area
-;;; worst area -> mean radius 2
-;;; mean radius 2 -> mean texture 2
