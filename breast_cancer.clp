@@ -157,7 +157,26 @@
 	(assert (radius-error ?re))
 )
 
-;;; Tanya value radius error -> worst texture, mean smoothness
+;;; Tanya value mean smoothness
+(defrule Get-Value-mean-smoothness
+	(mean-concave-points ?mcp)
+	(test (<= ?mcp 0.05))
+	(worst-radius ?wr)
+	(test (<= ?wr 16.83))
+	(radius-error ?re)
+	(test (> ?re 0.63))
+	=>
+	(bind ?ms (ask-question "Mean smoothness? " "" "" ))
+	(assert (mean-smoothness ?ms))
+	(if (> ?ms 0.09)
+		then (assert (breast-cancer 0))
+	else (if (<= ?ms 0.09)
+		    then (assert (breast-cancer 1))
+		 )
+	)
+)
+
+;;; Tanya value worst texture -> worst area
 (defrule Get-Value-worst-texture-2
 	(mean-concave-points ?mcp)
 	(test (<= ?mcp 0.05))
